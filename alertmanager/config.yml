@@ -1,29 +1,13 @@
-global:
-  resolve_timeout: 5m
-  http_config: 
-    follow_redirects: true
-  telegram_api_url: https://api.telergam.org
-
 route:
-  receiver: 'telegram'
-  group_wait: 30s
-  group_interval: 3m
+  - match:
+      severity: test-telegram
+    receiver: stardata-telegram
 
 receivers:
-- name: 'telegram'
+ 
+- name: 'stardata-telegram'
   telegram_configs:
-  - send_resolved: true
-    http_config:
-      follow_redirects: true
-    api_url: https://api.telergam.org
-    bot_token: '6551721742:AAFBNFQugY7zSLtSTj0dWdKNJ3axTlkM66s'
-    chat_id: -4189215446
-    message: '{{ template "telelgram.default.message" . }}'
-    disable_notification: false
-    parse_mode: MarkdownV2
-
-templates: []
-
-
-
-
+  - bot_token: -4189215446
+    api_url: https://api.telegram.org
+    chat_id: '6551721742:AAFBNFQugY7zSLtSTj0dWdKNJ3axTlkM66s'
+    parse_mode: ''
