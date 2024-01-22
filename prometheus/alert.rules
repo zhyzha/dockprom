@@ -10,34 +10,3 @@ groups:
     annotations:
       summary: "Сервис node_exporter на сервере {{ $labels.instance }} недоступен"
       description: "Возможно сервис node_exporter упал или сервер недоступен\n VALUE = {{ $value }}\n LABELS = {{ $labels }}"
-
-
-  - alert: HostOutOfMemory
-    expr: node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 80
-    for: 1m
-    labels:
-      severity: warning
-    annotations:
-      summary: Host out of memory (instance {{ $labels.instance }})
-      description: "Node memory is filling up (< 80% left)\n  VALUE = {{ $value }}"
-
-
-  - alert: Nodedown
-    expr: up{job="monitoring-pi"} == 0
-    for: 2m
-    labels:
-      severity: warning
-    annotations:
-      title: Node {{ $labels.instance }} is down
-      description:  "Failed to scrape {{ $labels.job }} on {{ $labels.instance }} for more than 2 minutes. Node seems down."
-
-
-  - alert: Node-alert: NodeOutOfMemory
-    annotations:
-      summary: Node out of memory (instance {{ $labels.instance }})
-      description: "Node memory is filling up (< 80% left)\n  VALUE = {{ $value }}\n  LABELS = {{ $labels }}"
-    labels:
-      severity: warning
-    expr: (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes * 100 < 80) * on(instance) group_left (nodename) node_uname_info{nodename=~".+>
-    for: 2m
-
