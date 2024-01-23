@@ -1,7 +1,7 @@
 groups:
 - name: node_exporter_alerts
   rules:
-- name: Node_exporter
+- name: Node_exporter126
 - alert: PrometheusTargetMissing
     expr: up == 0
     for: 0m
