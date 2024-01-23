@@ -1,13 +1,23 @@
+global:
+ resolve_timeout: 1m
 route:
-  - match:
-      severity: test-telegram
-    receiver: stardata-telegram
-
+  group_by: ['alertname']
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 1m
+  receiver: "telegram"
 receivers:
- 
-- name: 'stardata-telegram'
-  telegram_configs:
-  - bot_token: -4189215446
-    api_url: https://api.telegram.org
-    chat_id: '6551721742:AAFBNFQugY7zSLtSTj0dWdKNJ3axTlkM66s'
-    parse_mode: ''
+  - name: 'telegram'
+    telegram_configs:
+    - api_url: https://api.telegram.org
+      bot_token: 6551721742:AAFBNFQugY7zSLtSTj0dWdKNJ3axTlkM66s
+      chat_id: -4189215446
+      send_resolved: true
+      parse_mode: HTML
+      message: '{{ template "telegram.default.message" . }}'
+inhibit_rules:
+  - source_match:
+      severity: 'critical'
+    target_match:
+      severity: 'warning'
+
